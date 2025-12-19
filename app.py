@@ -111,7 +111,6 @@ st.sidebar.info("""
 
 **Energy Savings**: % of electricity saved vs. always-on lights (target: 24-60%)
 
-**Comfort Score**: % of time lighting meets occupant needs (0-100%)
 """)
 
 # ==============================
@@ -379,3 +378,4 @@ if st.button("▶️ Play Simulation (Feb–Dec)", type="primary"):
     })
 
     st.dataframe(summary_df, use_container_width=True, hide_index=True)
+
