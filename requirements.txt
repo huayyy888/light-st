@@ -1,0 +1,8 @@
+streamlit
+numpy
+pandas
+plotly
+pillow
+gymnasium
+stable-baselines3
+torch
