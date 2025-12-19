@@ -64,31 +64,22 @@ def render_light(brightness: float):
     return enhancer.enhance(0.2 + brightness * 1.8)
 
 # ==============================
-# Image resource lists
+# Load images
 # ==============================
+@st.cache_data
+def load_bulb():
+    return Image.open("assets/light_bulb.jpg").convert("RGBA")
 
-# 只保留文件名
-TIME_IMAGE_NAMES = ["morning.png", "afternoon.png", "evening.png", "night.png"]
+def render_light(brightness: float):
+    enhancer = ImageEnhance.Brightness(load_bulb())
+    return enhancer.enhance(0.2 + brightness * 1.8)
+
+TIME_IMAGES = ["morning.png", "afternoon.png", "evening.png", "night.png"]
 TIME_LABELS = ["🌅 Morning", "☀️ Afternoon", "🌆 Evening", "🌙 Night"]
-
-WEATHER_IMAGE_NAMES = ["clear.png", "cloudy.png", "foggy.png", "rain.png"]
+WEATHER_IMAGES = ["clear.png", "cloudy.png", "foggy.png", "rain.png"]
 WEATHER_LABELS = ["☀️ Clear", "☁️ Cloudy", "🌫️ Foggy", "🌧️ Rain"]
-
-BEHAVIOUR_IMAGE_NAMES = ["walking.png", "sleep.png", "eating.png", "studying.png"]
+BEHAVIOUR_IMAGES = ["walking.png", "sleep.png", "eating.png", "studying.png"]
 BEHAVIOUR_LABELS = ["🚶 Walking", "😴 Sleeping", "🍽️ Eating", "📚 Studying"]
-
-# ==============================
-# 绝对路径拼接，Cloud 安全
-# ==============================
-def load_image_list(folder: str, file_names: list):
-    """返回图片的绝对路径列表"""
-    folder_path = os.path.join(os.path.dirname(__file__), "assets", folder)
-    return [os.path.join(folder_path, f) for f in file_names]
-
-TIME_IMAGES = load_image_list("time", TIME_IMAGE_NAMES)
-WEATHER_IMAGES = load_image_list("weather", WEATHER_IMAGE_NAMES)
-BEHAVIOUR_IMAGES = load_image_list("behaviour", BEHAVIOUR_IMAGE_NAMES)
-
 # ==============================
 # Sidebar
 # ==============================
@@ -386,4 +377,5 @@ if st.button("▶️ Play Simulation (Feb–Dec)", type="primary"):
         "Comfort Score (%)": [f"{c:.1f}" for c in history_comfort_scores],
         "Target Met": ["✅" if 24 <= e <= 60 else "❌" for e in history_energy_savings]
     })
+
     st.dataframe(summary_df, use_container_width=True, hide_index=True)
